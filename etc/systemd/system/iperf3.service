@@ -1,0 +1,14 @@
+[Unit]
+Description=IPerf3
+After=network.target
+Wants=network-online.target
+
+[Service]
+Restart=always
+Type=exec
+ExecStartPre=/bin/rm -f /var/log/iperf3.json
+ExecStart=/usr/bin/iperf3 --server --port 2502 --one-off --logfile /var/log/iperf3.json --json
+ExecStopPost=/bin/cp -f /var/log/iperf3.json /home/adner/iperf3.json
+
+[Install]
+WantedBy=multi-user.target
